@@ -23,3 +23,17 @@ I tried out three methods for predicting absorptions:
 ## Key Findings
 
 Still a work in progress...
+
+## What I Learned
+
+I am still learning!
+
+## The Multivariate Machine Learning Approach
+
+## Simple Three Month Moving Average
+
+## Simple Twelve Month Moving Average
+
+## ARMA
+
+## Facebook Prophet
