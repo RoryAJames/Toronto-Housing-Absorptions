@@ -20,6 +20,19 @@ I tried out three methods for predicting absorptions:
 
 3) Using Facebook's Prohpet model.
 
+## Model Performance
+
+Model performance was measured by looking at the mean absolute error, root mean squared error, and mean absolute percent error.
+
+| Model                                  | Mean Absolute Error | Root Mean Squared Error | Mean Absolute Percent Error |
+| -------------                          |:-------------:      | :-----:                 | :-----:                     |
+| Lasso With 0.01 Alpha                  | 640                 |        926              | 23%                         |
+| Three Month Moving Average             | 713                 |        969              | 28%                         |
+| Twelve Month Moving Average            | 630                 |        859              | 25%                         |
+| ARMA (1,7)                             | 572                 |        797              | 26%                         |
+| ARMA (7,7)                             | 590                 |        802              | 27%                         |
+| Prophet                                | --                  |        --               | --                          |
+
 ## Key Findings
 
 Still a work in progress...
@@ -36,4 +49,4 @@ I am still learning!
 
 ## ARMA
 
-## Facebook Prophet
+## Prophet
