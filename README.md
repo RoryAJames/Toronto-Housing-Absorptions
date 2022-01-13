@@ -29,8 +29,7 @@ Model performance was measured by looking at the mean absolute error, root mean 
 | Lasso With 0.01 Alpha                  | 640                 |        926              | 23%                         |
 | Three Month Moving Average             | 713                 |        969              | 28%                         |
 | Twelve Month Moving Average            | 630                 |        859              | 25%                         |
-| ARMA (1,7)                             | 572                 |        797              | 26%                         |
-| ARMA (7,7)                             | 590                 |        802              | 27%                         |
+| ARMA (7,7)                             | 656                 |        856              | 30%                         |
 | Prophet                                | --                  |        --               | --                          |
 
 ## Key Findings
