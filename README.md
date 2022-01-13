@@ -40,6 +40,8 @@ Still a work in progress...
 
 I am still learning!
 
+## Other Areas To Explore
+
 ## The Multivariate Machine Learning Approach
 
 ## Simple Three Month Moving Average
