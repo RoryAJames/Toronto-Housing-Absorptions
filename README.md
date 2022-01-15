@@ -4,7 +4,7 @@
 
 Housing absorption is the rate at which homes in a particular market and timeframe are sold. It is an important metric that can be used for assessing a housing markets supply and demand levels.
 
-For this project, I wanted to see whether I can build a regression model that accurately predicts, and then forecasts, the number of monthly housing absorptions in the City of Toronto. To keep it simple, I wanted to try and predict the total number of absorptions across all dwelling types (single, semi-detached, row, and apartment). However, it is very well possible to predict the number of absorptions by dwelling type, or even of another city, if one wanted to.
+For this project, I wanted to see whether I can build a regression model that accurately predicts, and then forecasts, the number of monthly housing absorptions in the City of Toronto. This is a time series forecasting type of prediction. To keep it simple, I wanted to try and predict the total number of absorptions across all dwelling types (single, semi-detached, row, and apartment). However, it is very well possible to predict the number of absorptions by dwelling type, or even of another city, if one wanted to.
 
 ## The Inspiration And Business Case
 
@@ -14,15 +14,25 @@ The idea for this project came to me when I was thinking about assessing the rea
 
 I tried out three methods for predicting absorptions:
 
-1) A traditional machine learning regression approach which uses various economic data points (a multivariate model). My thinking was that absorptions can be predicted by using a combination of economic data points like unemployment rate, borrowing rate, home prices, etc. 
+1) A traditional machine learning regression approach which uses various economic data points (a multivariate model). My thinking was that absorptions can be predicted by using a combination of economic data points like unemployment rate, borrowing rate, the year over year change in home prices, etc. 
 
 2) Traditional univariate time series forecasting methods such as simple moving averages and ARMA.
 
 3) Using Facebook's Prohpet model.
 
+## The Data
+
+Housing absorption data was obtained from the Canada Mortgage and Housing Corporation (CMHC) information portal. A link to this information portal can be found [here](https://www03.cmhc-schl.gc.ca/hmip-pimh/en/TableMapChart?id=2270&t=3).
+
+The economic data points that were used in the multivariate model were obtained from the Statistics Canada (StatsCan) API. This API provides a connection to the StatsCan data portal, which contains thousands of economic datasets. With the exception of a few features, most of the datapoints that I gathered for this project was specific to the Toronto metropolitan area. A link to the StatsCan data portal can be found [here](https://www150.statcan.gc.ca/n1//en/type/data?MM=1#tables). The documentation for the StatsCan API can be found [here](https://stats-can.readthedocs.io/en/latest/).
+
+The data cleaning and preprocessing was performed in the machine learning portion of the project. See below for a detailed breakdown of the steps that I performed. 
+
 ## Model Performance
 
-Model performance was measured by looking at the mean absolute error, root mean squared error, and mean absolute percent error.
+Each model was trained on 223 months of data from the periods between April 2001 to October 2019. A test set of 24 months, from November 2019 to October 2021, was used to evaluate each models prediction performance. Since this is a time series type of prediction, the data was not split randomly but rather chronologically in order to avoid data leakage.
+
+Model performance was measured by looking at the mean absolute error, root mean squared error, and mean absolute percent error. Below is a breakdown of each models performance:
 
 | Model                                  | Mean Absolute Error | Root Mean Squared Error | Mean Absolute Percent Error |
 | -------------                          |:-------------:      | :-----:                 | :-----:                     |
