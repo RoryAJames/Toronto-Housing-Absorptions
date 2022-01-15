@@ -14,7 +14,7 @@ The idea for this project came to me when I was thinking about assessing the rea
 
 I tried out three methods for predicting absorptions:
 
-1) A traditional machine learning regression approach which uses various economic data points (a multivariate model). My thinking was that absorptions can be predicted by using a combination of economic data points like unemployment rate, borrowing rate, the year over year change in home prices, etc. 
+1) A traditional machine learning regression approach which uses various economic data points (a multivariate model). My thinking was that absorptions can be predicted by using a combination of monthly economic data points like the number of housing completions, unemployment rate, borrowing rate, the year over year change in home prices, etc. 
 
 2) Traditional univariate time series forecasting methods such as simple moving averages and ARMA.
 
@@ -24,9 +24,7 @@ I tried out three methods for predicting absorptions:
 
 Housing absorption data was obtained from the Canada Mortgage and Housing Corporation (CMHC) information portal. A link to this information portal can be found [here](https://www03.cmhc-schl.gc.ca/hmip-pimh/en/TableMapChart?id=2270&t=3).
 
-The economic data points that were used in the multivariate model were obtained from the Statistics Canada (StatsCan) API. This API provides a connection to the StatsCan data portal, which contains thousands of economic datasets. With the exception of a few features, most of the datapoints that I gathered for this project was specific to the Toronto metropolitan area. A link to the StatsCan data portal can be found [here](https://www150.statcan.gc.ca/n1//en/type/data?MM=1#tables). The documentation for the StatsCan API can be found [here](https://stats-can.readthedocs.io/en/latest/).
-
-The data cleaning and preprocessing was performed in the machine learning portion of the project. See below for a detailed breakdown of the steps that I performed. 
+The economic data points that were used in the multivariate model were obtained using the Statistics Canada (StatsCan) API. This API provides a connection to the StatsCan data portal, which contains thousands of economic datasets. With the exception of a few features, most of the datapoints that I gathered for this project are specific to the Toronto metropolitan area. A link to the StatsCan data portal can be found [here](https://www150.statcan.gc.ca/n1//en/type/data?MM=1#tables). The documentation for the StatsCan API can be found [here](https://stats-can.readthedocs.io/en/latest/).
 
 ## Model Performance
 
@@ -51,6 +49,10 @@ Still a work in progress...
 I am still learning!
 
 ## Other Areas To Explore
+
+Rather than using machine learning for multivariate forecasting, it is probably more appropriate to use vector auto regression. 
+
+Since the number of absorptions is so closely tied to the number of housing completions, it is probably worth while to explore the realtionship between housing starts and a lag value of absorptions. Given what I observed in the data exploration process of this project, I suspect that there would be a strong correlation between housing starts and a lag value of absorptions, where the lag value would represent the construction duration. In other words, you can probably forecast what the absorptions would be if you just shift the number of housing starts forward by the average construction duration.  
 
 ## The Multivariate Machine Learning Approach
 
