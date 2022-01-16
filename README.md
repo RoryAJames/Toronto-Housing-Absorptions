@@ -50,9 +50,7 @@ I am still learning!
 
 ## Other Areas To Explore
 
-Rather than using machine learning for multivariate forecasting, it is probably more appropriate to use vector auto regression. 
-
-Since the number of absorptions is so closely tied to the number of housing completions, it is probably worth while to explore the realtionship between housing starts and a lag value of absorptions. Given what I observed in the data exploration process of this project, I suspect that there would be a strong correlation between housing starts and a lag value of absorptions, where the lag value would represent the construction duration. In other words, you can probably forecast what the absorptions would be if you just shift the number of housing starts forward by the average construction duration.  
+During the data exploration process I observed that housing completions and absorptions are highly correlated. From what I observed, I suspect that there would be a strong correlation between housing starts and a lag value of absorptions, where the lag value would represent the construction duration. In other words, you can probably forecast what absorptions would be if you just shift the number of housing starts forward by the average construction duration.  
 
 ## The Multivariate Machine Learning Approach
 
