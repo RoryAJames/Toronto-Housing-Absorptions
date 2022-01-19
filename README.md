@@ -8,7 +8,7 @@ For this project, I wanted to see whether I can build a regression model that ac
 
 ## The Inspiration And Business Case
 
-The idea for this project came to me when I was thinking about assessing the real estate market share in Toronto, and how a company can set absorption targets so that they maintain a desired market share. For example, let's say I was a realtor whose goal is to maintain a certain percent of the market sales. If I could accurately forecast the number of absorptions over a certain time period, I can then figure out how many sales I need to make in that time period to achieve my desired market share.
+The idea for this project came to me when I was thinking about assessing the real estate market share in Toronto, and how a company can set absorption targets so that they achieve a desired market share. For example, let's say I was a realtor whose goal is to maintain a certain percent of the market sales. If I could accurately forecast the number of absorptions over a certain time period, I can then figure out how many sales I need to make in that time period to achieve my desired market share.
 
 ## The Approach
 
@@ -42,11 +42,19 @@ Model performance was measured by looking at the mean absolute error, root mean 
 
 ## Key Findings
 
-Still a work in progress...
+Housing absorptions is a noisy data set, with no apparent trend or seasonality. The data seems to fulctuate randomly and there are multiple changepoints, which makes forecasting very challenging. None of the tested forecasting methods are perfect, and should not be taken for granted. Depending on the business needs, and the number of periods that need to be forecasted, decision makers should select an appropriate forecasting method.
 
-## What I Learned
+If a period of only one month is required to be forecasted, then it is recommended to use a simple twelve-month moving average, given its simplicity and relative accuracy to some of the more complicated approaches (such as a machine learning approach). If a larger period is required to be forecasted then it is recommended to keep the forecasting window as small as possible, and use either an ARMA (7,7) or Prophet model.
 
-I am still learning!
+## Lessons That I Learned
+
+In no particular order, the biggest lessons that I learned through working on this project are: 
+
+- Time series forecasting problems are challenging. If there in no apparent trend, seasonality, or if the data is noisy, then it might be too complicated to forecast. There are a lot of resources out there that teach time series forecasting methods, and almost all of them are on trivial "toy" datasets. Do not assume that these methods are going to work on every problem you face.
+
+- Simple solutions are sometimes the best solutions. Try not to over complicate the problem. For example, I spent a lot of preprocessing time working on the multivariate machine learning model to later only find out that a simple tweleve month moving average approach was more accurate, versatile, and less complicated. In addition, it would be easier to explain how this approach works to managment.
+
+- Be careful when imputing a large number of missing values when using an intuitive multivariate imputer.
 
 ## Other Areas To Explore
 
