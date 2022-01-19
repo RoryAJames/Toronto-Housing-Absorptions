@@ -50,7 +50,7 @@ If a period of only one month is required to be forecasted, then it is recommend
 
 In no particular order, the biggest lessons that I learned through working on this project are: 
 
-- Time series forecasting problems are challenging. If there in no apparent trend, seasonality, or if the data is noisy, then it might be too complicated to forecast. There are a lot of resources out there that teach time series forecasting methods, and almost all of them are on trivial "toy" datasets. Do not assume that these methods are going to work on every problem you face.
+- Time series forecasting problems are challenging. If there is no apparent trend, seasonality, or if the data is noisy, then it might be too complicated to forecast. There are a lot of resources out there that teach time series forecasting methods, and almost all of them are on trivial "toy" datasets. Do not assume that these methods are going to work on every problem you face.
 
 - Simple solutions are sometimes the best solutions. Try not to over complicate the problem. For example, I spent a lot of preprocessing time working on the multivariate machine learning model to later only find out that a simple tweleve month moving average approach was more accurate, versatile, and less complicated. In addition, it would be easier to explain how this approach works to managment.
 
