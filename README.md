@@ -20,7 +20,7 @@ I tried out three methods for predicting absorptions:
 
 3) Using Facebook's Prohpet model.
 
-A link to the full notebook with my code and breakdown of the preprocessing steps can be found [here](https://github.com/RoryAJames/Toronto-Housing-Absorptions/blob/main/Toronto%20Housing%20Absorptions.ipynb).
+A link to the full notebook with my code, exploratory data analysis, and breakdown of the preprocessing steps can be found [here](https://github.com/RoryAJames/Toronto-Housing-Absorptions/blob/main/Toronto%20Housing%20Absorptions.ipynb).
 
 ## The Data
 
