@@ -14,13 +14,13 @@ The idea for this project came to me when I was thinking about assessing the rea
 
 I tried out three methods for predicting absorptions:
 
-1) A traditional machine learning regression approach which uses various economic data points (a multivariate model). My thinking was that absorptions can be predicted by using a combination of monthly economic data points like the number of housing completions, unemployment rate, borrowing rate, the year over year change in home prices, etc. 
+1) A traditional machine learning regression approach which uses various economic data points (a multivariate model). 
 
 2) Traditional univariate time series forecasting methods such as simple moving averages and ARMA.
 
 3) Using Facebook's Prohpet model.
 
-A link to the full notebook with my code, exploratory data analysis, and breakdown of the preprocessing steps can be found [here](https://github.com/RoryAJames/Toronto-Housing-Absorptions/blob/main/Toronto%20Housing%20Absorptions.ipynb).
+A link to the full notebook with my code, exploratory data analysis, and breakdown of the preprocessing steps I applied can be found [here](https://github.com/RoryAJames/Toronto-Housing-Absorptions/blob/main/Toronto%20Housing%20Absorptions.ipynb).
 
 ## The Data
 
@@ -52,37 +52,79 @@ If a period of only one month is required to be forecasted, then it is recommend
 
 ## Lessons That I Learned
 
-In no particular order, the biggest lessons that I learned through working on this project are: 
+The biggest lessons that I learned through working on this project are: 
 
-- Time series forecasting problems are challenging. If there is no clear trend, seasonality, or if the data is noisy, then it might be too complicated to accurately forecast. There are a lot of resources out there that teach time series forecasting methods, and almost all of them are on trivial "toy" datasets. Do not assume that these methods are going to work on every problem you face.
+- Time series forecasting problems are challenging. If there is no clear trend, seasonality, or if the data is noisy, then it might be too complicated to accurately forecast. There are a lot of resources out there that teach time series forecasting methods, and almost all of them are on trivial "toy" datasets where the results are rather easy to produce. Do not assume that these methods are going to work on every problem you face.
 
-- Simple solutions are sometimes the best solutions. Try not to over complicate the problem. For example, I spent a lot of preprocessing time working on the multivariate machine learning model to later only find out that a simple tweleve month moving average was more accurate, versatile, and less complicated. In addition, it would be easier to explain how this approach works to managment.
+- Simple solutions are sometimes the best solutions. Try not to over complicate the problem. For example, I spent a lot of preprocessing time working on the multivariate machine learning model to later only find out that a simple twelve month moving average was more accurate, versatile, and less complicated. In addition, this model is far easier to explain to people who may not be versed in statistics or machine learning.
 
-- Be careful when trying to impute a large number of missing values using an intuitive multivariate imputer. I spent a lot of time trying to impute missing values for features that had over 60% of their values missing. The problem with this approach is that it did not yield realistic results and led to a large amount of multicollinearity as features would start mirroring each other.
+- Be careful when trying to impute a large number of missing values using an intuitive multivariate imputer. I spent a lot of time trying to impute missing values for features that had over 60% of their values missing. The problem with this approach is that it did not yield realistic results and led to a large amount of multicollinearity, as features would start mirroring each other.
 
 - The Statistics Canada API is a great and easy to use resource that allows for the retrieval of data from the Statistics Canada data portal. 
 
 ## Other Areas To Explore
 
-During the data exploration process I observed that housing completions and absorptions are highly correlated. From what I observed, I suspect that there would be a strong correlation between housing starts and a lag value of absorptions, where the lag value would represent the construction duration. In other words, you can probably forecast what absorptions would be if you just shift the number of housing starts forward by the average construction duration.  
+During the data exploration process I observed that housing completions and absorptions are highly correlated. From what I observed, I suspect that there would be a strong correlation between housing starts and a lag value of absorptions, where the lag value would represent the construction duration. In other words, you can probably forecast absorptions if you just shift the number of housing starts forward by the average construction duration.  
 
 ## The Multivariate Machine Learning Approach
+
+My original thinking for this project was that housing absorptions in Toronto can be predicted by using a combination of monthly economic data points. Most of the data points I gathered are specific to the metropolitan Toronto area, along with a couple of national data points as well. I intuitively started with the following features:
+
+- The number of housing units created in the metropolitan Toronto area.
+- The inventory of completed and unabsorbed housing units in the metropolitan Toronto area.
+- Toronto's population.
+- Toronto's unemployment rate.
+- The five-year term conventional mortgage rate.
+- Toronto's inflation rate calculated by CPI year over year.
+- Toronto's year over year change in the new home price index.
+- The total construction investment into Toronto's residential buildings.
+- The total retail trade in dollars for the metropolitan Toronto area.
+- The year over year return on the Toronto Stock Exchange.
+- The year over year change in the M2 money supply.
+
+It was discovered in the exploratory data anlysis that residential building construction investment, along with retail trade in dollars, had a significant amount out missing values. These features were removed as result. It was later discovered that the number of housing units created and total absorptions had a very strong correlation with eachother. The housing units created feature was removed to avoid multicollinearity. Most of the remaining features were right skwed so a log transformation was applied.
+
+In order to turn my time series problem into a supervised machine learning problem I had to lag all of the features by a point in time, and subsequently create another feature which was the lag value of total absorptions itself. Using autocorrelation (ACF) and partial autocorrelation (PACF) plots, I determined that a value of one lag would be appropriate as it showed to be statistically significant on both plots.
 
 ![](https://github.com/RoryAJames/Toronto-Housing-Absorptions/blob/main/images/acf.png)
 
 ![](https://github.com/RoryAJames/Toronto-Housing-Absorptions/blob/main/images/pacf.png)
 
+For the model building, I wanted to see how regularized and ensemble methods compared to each other. This was because some of the remaining features still showed moderate correlations with eachother. A pipeline dictionary containing various models, along with a hyperparameter dictionary for each model, was passed through GridSearchCV. Each models performance was measured using the mean absolute error, root mean squared error, and mean absolute percentage error with five-fold cross validation.
+
+The grid search showed that a Lasso model with an alpha value of 0.01 had the best performance metrics. A seperate instance of this model was then created and applied on the test set to visualize the predictions. I will note that a 0.01 alpha is a rather low for a Lasso model, and not that far off from what a linear regression model would produce.
+
+While the Lasso model generally followed the trend of absorptions, it typically under predicted what the actual absorptions were. To me, it appeared that the predictions closely resembled that of a large moving average window. This was later tested in the univariate section.
+
 ![](https://github.com/RoryAJames/Toronto-Housing-Absorptions/blob/main/images/lasso.png)
+
+Since my original assumption for this project was that housing absorptions can be predicted using various economic features, I decided it would be appropriate to visualize the coefficients of the Lasso model. In addition, I knew that the Lasso model does feature selection behind the scenes through penalizing the coefficients, which would eliminate features that do not have a material impact on the dependant variable.
+
+The year over year CPI rate (inflation), unemployment rate, and inventory of completed and unabsorbed housing units were eliminated from the Lasso model. Interestingly, the year over year new home price index value displayed the largest coefficient. This made sense, as it was observed in the exploratory data analysis that the trend line in total absorptions closely followed the year over year trend in the new home price index.
 
 ![](https://github.com/RoryAJames/Toronto-Housing-Absorptions/blob/main/images/lasso_coeffs.png)
 
+While the Lasso model performed decently, there are limitations to this approach. Firstly, it is fairly complicated and does not easily allow for forecasting into periods beyond the data frame. Secondly, it is limited by depending on StatsCan to update the economic data. Sometimes it can take a while for the latest economic data to become available. Based on the way the model is set up, it only allows for forecasting one month ahead, and only if data for all of the features is available. In most cases, by the time the data does become available the forecasts might already be outdated.
+
 ## Moving Average Approach
+
+Since the Lasso predictions appeared to follow the mean value of total absorptions, I decided it would be appropriate to compare the performance of a three month moving average to a twelve month moving average.
+
+The three month moving average approach was a lot more responsive to the fluctuations in total absorptions. However, it did not have better performance metrics than the Lasso model.
 
 ![](https://github.com/RoryAJames/Toronto-Housing-Absorptions/blob/main/images/sma3.png)
 
+The twelve month moving average approach did perform better than the Lasso model on a mean absolute error, and root mean squared error basis. The predictions appear very similar to the Lasso model too, in that they follow the overall trend of total absorptions.
+
 ![](https://github.com/RoryAJames/Toronto-Housing-Absorptions/blob/main/images/sma12.png)
 
+Given it's simplicity, and relative accuracy to the Lasso model, I would reccomend the twelve month model as my prefered use of forecasting. However, the twelve month moving average approach is limited in that it only allows for forecasting one month ahead.
+
 ## ARMA
+
+The reason for using an ARMA model over an integrated ARIMA model is that absorptions is a stationary dataset. This was observed through the ACF and PACF plots which showed a drastic decrease to zero. A Dickey-Fuller test was also conducted to validate that absorptions is stationary.
+
+Multiple ARMA models were tested.
 
 ![](https://github.com/RoryAJames/Toronto-Housing-Absorptions/blob/main/images/arma.png)
 
