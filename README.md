@@ -120,7 +120,7 @@ The twelve month moving average approach did perform better than the Lasso model
 
 ## ARMA
 
-The reason for using an ARMA model over an integrated ARIMA model is that absorptions is a stationary dataset. No differencing was required. This was observed through the ACF and PACF plots which showed a drastic decrease to zero. To be sure, a Dickey-Fuller test was also conducted to validate the assumption.
+The reason for using an ARMA model over an integrated ARIMA model is that absorptions is a stationary dataset. No differencing was required. This was observed through the ACF and PACF plots which showed a drastic decrease to zero. To be sure, a Dickey-Fuller test was conducted to validate the assumption.
 
 Multiple instances of the ARMA model were tested. From what I observed in the moving average portion, a larger moving average window resulted in better prediction performance. A lag of seven was the largest value that showed to be significant from the ACF plot, and so it was used. In the end, an ARMA(7,7) model with exclusive p, and q components showed to have statistically significant coefficients and a high Ljung-Box statistic.
 
