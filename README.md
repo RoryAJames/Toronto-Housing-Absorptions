@@ -8,7 +8,7 @@ For this project, I wanted to see whether I could build a regression model that 
 
 ## The Inspiration and Business Case
 
-The idea for this project came to me when I was thinking about assessing the real estate market share in Toronto, and how a company can set absorption targets. For example, let's say I was a realtor whose goal is to achieve a certain percent of the market sales. If I could accurately forecast the number of absorptions over a certain time period, I can then figure out how many sales I need to make in that time period to achieve my desired market share.
+The idea for this project came to me when I was thinking about assessing the real estate market share in Toronto, and how a company can set absorption targets. If one could accurately forecast the number of absorptions over a certain time period, one can then figure out how many sales they need to make in that time period to achieve a desired market share.
 
 ## The Approach
 
